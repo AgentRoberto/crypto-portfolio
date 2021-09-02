@@ -110,8 +110,7 @@ function App() {
         </select>
       }
       <Dashboard price={price} data={pastData} />
-      <AddPair name={pair}/>
-
+      <AddPair name={pair} price={price}/>
     </div>
   );
 }
