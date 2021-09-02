@@ -1,6 +1,8 @@
-import logo from './logo.svg';
-import './App.css';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
+import Dashboard from "./components/Dashboard";
+import { formatData } from "./utils";
+import "./App.css";
+import {AddPair} from "./components/AddPair/AddPair"
 
 function App() {
   const [currencies, setCurrencies] = useState([])
@@ -14,14 +16,12 @@ function App() {
 
   useEffect(() => {
     ws.current = new WebSocket("wss://ws-feed.pro.coinbase.com");
-
     let pairs = [];
 
     const apiCall = async () => {
       await fetch (url + "/products")
         .then((res) => res.json())
         .then((data) => (pairs = data));
-      console.log("pairs", pairs);
       let filtered = pairs.filter((pair) => {
         if(pair.quote_currency === "USD") {
           return pair;
@@ -34,7 +34,6 @@ function App() {
         }
         return 0;
       });
-      console.log(filtered);
       setCurrencies(filtered);
 
       first.current = true;
@@ -48,8 +47,6 @@ function App() {
       
       return;
     }
-
-    
     let msg = {
       type: "subscribe",
       product_ids: [pair],
@@ -58,7 +55,7 @@ function App() {
     let jsonMsg = JSON.stringify(msg);
     ws.current.send(jsonMsg);
 
-    let historicalDataURL = `${url}/products/${pair}/candles?granularity=86400`;
+    let historicalDataURL = `${url}/products/${pair}/candles?granularity=3600`;
     const fetchHistoricalData = async () => {
       let dataArr = [];
       await fetch(historicalDataURL)
@@ -66,7 +63,9 @@ function App() {
         .then((data) => (dataArr = data));
       
       let formattedData = formatData(dataArr);
-      setpastData(formattedData);
+      console.log(formattedData);
+
+      setPastData(formattedData);
     };
 
     fetchHistoricalData();
@@ -78,13 +77,41 @@ function App() {
       }
 
       if (data.product_id === pair) {
-        setprice(data.price);
+
+        setPrice(data.price);
       }
     };
   }, [pair]);
+
+  const handleSelect = (e) => {
+    let unsubMsg = {
+      type: "unsubscribe",
+      product_ids: [pair],
+      channels: ["ticker"]
+    };
+    let unsub = JSON.stringify(unsubMsg);
+
+    ws.current.send(unsub);
+
+    setPair(e.target.value);
+  };
   return (
-    <div className="App">
-      <h1>Hello World</h1>
+    <div className="container">
+      {
+        <select class="dropdown" name="currency" value={pair} onChange={handleSelect}>
+          {currencies.map((cur, idx) => {
+            return (
+              <option key={idx} value={cur.id}>
+                {cur.display_name}
+              </option>
+            );
+          })}
+
+        </select>
+      }
+      <Dashboard price={price} data={pastData} />
+      <AddPair name={pair}/>
+
     </div>
   );
 }
