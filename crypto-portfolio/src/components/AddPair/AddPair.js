@@ -7,7 +7,7 @@ export const AddPair = (props) => {
 
     const onAddBtnClick = () => {
         setPortfolio(props.name);
-        setPrice(props.price);
+        setPrice(parseFloat(props.price) + parseFloat(price));
       };
     return (
         <div>
