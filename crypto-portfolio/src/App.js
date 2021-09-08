@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Dashboard from "./components/Dashboard";
 import { formatData } from "./utils";
 import "./App.css";
-import {AddPair} from "./components/AddPair/AddPair"
+import { UpdatePortfolio } from "./components/UpdatePortfolio/UpdatePortfolio"
 
 function App() {
   const [currencies, setCurrencies] = useState([])
@@ -110,7 +110,7 @@ function App() {
         </select>
       }
       <Dashboard price={price} data={pastData} />
-      <AddPair name={pair} price={price}/>
+      <UpdatePortfolio name={pair} price={price}/>
     </div>
   );
 }
