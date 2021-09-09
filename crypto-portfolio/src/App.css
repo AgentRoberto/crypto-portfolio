@@ -12,7 +12,9 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+body {
+  background-color: #fdfefe;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -38,7 +40,7 @@
 }
 
 .dropdown {
-  background-color: #4CAF50;
+  background-color: #4686ff;
   border: none;
   color: white;
   padding: 15px 32px;

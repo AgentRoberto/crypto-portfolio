@@ -18,16 +18,16 @@ export const UpdatePortfolio = (props) => {
       };
     return (
         <div>
-          {clicked ?          
-            <div>Added: {portfolio}</div> : 
-            <div>Removed: {portfolio}</div>
-          }
+          
           <button class="btn-add" onClick={onAddBtnClick}>Add to Portfolio</button> 
           <button class="btn-remove" onClick={onRemoveBtnClick}>Remove from Portfolio</button>
-
+          
+          {clicked ?          
+            <h1>Added: {portfolio}</h1> : 
+            <h1>Removed: {portfolio}</h1>
+          }
           <div class="portfolio">
             <h1>Portfolio Value: {price}</h1>
-          
           </div>
         </div>
     )

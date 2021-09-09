@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./components/DashBoard/Dashboard";
 import { formatData } from "./utils";
 import "./App.css";
 import { UpdatePortfolio } from "./components/UpdatePortfolio/UpdatePortfolio"
-
+import Navbar from "./components/Navbar/Navbar"
 function App() {
   const [currencies, setCurrencies] = useState([])
   const [pair, setPair] = useState('')
@@ -22,12 +22,13 @@ function App() {
       await fetch (url + "/products")
         .then((res) => res.json())
         .then((data) => (pairs = data));
+      
+      // Filter to show only USD pairs
       let filtered = pairs.filter((pair) => {
         if(pair.quote_currency === "USD") {
           return pair;
         }
       });
-
       filtered = filtered.sort((a, b) => {
         if(a.base_currency < b.base_currency) {
           return -1;
@@ -44,7 +45,6 @@ function App() {
 
   useEffect(() => {
     if (!first.current) {
-      
       return;
     }
     let msg = {
@@ -70,7 +70,7 @@ function App() {
 
     fetchHistoricalData();
 
-    ws.current.onmessage = (e) => {
+      ws.current.onmessage = (e) => {
       let data = JSON.parse(e.data);
       if (data.type !== "ticker") {
         return;
@@ -96,6 +96,10 @@ function App() {
     setPair(e.target.value);
   };
   return (
+    <>
+    <Navbar />
+    <Dashboard price={price} data={pastData} />
+
     <div className="container">
       {
         <select class="dropdown" name="currency" value={pair} onChange={handleSelect}>
@@ -109,9 +113,9 @@ function App() {
 
         </select>
       }
-      <Dashboard price={price} data={pastData} />
       <UpdatePortfolio name={pair} price={price}/>
     </div>
+    </>
   );
 }
 
