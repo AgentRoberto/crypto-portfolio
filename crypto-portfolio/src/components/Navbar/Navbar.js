@@ -5,7 +5,7 @@ const Navbar = () => {
     return (
         <div className='navbar'>
             <div className='crypto-wallet'>
-                <h1>Wallet Tracker</h1>
+                <h1 id="nav-id">Wallet Tracker</h1>
             </div>
         </div>
     )

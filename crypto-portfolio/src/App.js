@@ -1,121 +1,65 @@
 import React, { useState, useEffect, useRef } from "react";
-import Dashboard from "./components/DashBoard/Dashboard";
-import { formatData } from "./utils";
 import "./App.css";
-import { UpdatePortfolio } from "./components/UpdatePortfolio/UpdatePortfolio"
+import axios from "axios";
 import Navbar from "./components/Navbar/Navbar"
+import Coin from "./components/CoinItem/Coin";
+
 function App() {
-  const [currencies, setCurrencies] = useState([])
-  const [pair, setPair] = useState('')
-  const [price, setPrice] = useState('0.00')
-  const [pastData, setPastData] = useState({})
-  const ws = useRef(null)
-
-  let first = useRef(false)
-  const url = 'https://api.pro.coinbase.com'
-
+  const [coins, setCoins] = useState([]);
+  const [search, setSearch] = useState("");
+  const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
+  
   useEffect(() => {
-    ws.current = new WebSocket("wss://ws-feed.pro.coinbase.com");
-    let pairs = [];
-
-    const apiCall = async () => {
-      await fetch (url + "/products")
-        .then((res) => res.json())
-        .then((data) => (pairs = data));
-      
-      // Filter to show only USD pairs
-      let filtered = pairs.filter((pair) => {
-        if(pair.quote_currency === "USD") {
-          return pair;
-        }
-      });
-      filtered = filtered.sort((a, b) => {
-        if(a.base_currency < b.base_currency) {
-          return -1;
-        }
-        return 0;
-      });
-      setCurrencies(filtered);
-
-      first.current = true;
-    };
-
-    apiCall();
+    axios
+      .get(url)
+      .then((res) => {
+        setCoins(res.data);
+        console.log(res.data);
+      })
+      .catch((error) => console.error(error));
   }, []);
 
-  useEffect(() => {
-    if (!first.current) {
-      return;
-    }
-    let msg = {
-      type: "subscribe",
-      product_ids: [pair],
-      channels: ["ticker"]
-    };
-    let jsonMsg = JSON.stringify(msg);
-    ws.current.send(jsonMsg);
 
-    let historicalDataURL = `${url}/products/${pair}/candles?granularity=3600`;
-    const fetchHistoricalData = async () => {
-      let dataArr = [];
-      await fetch(historicalDataURL)
-        .then((res) => res.json())
-        .then((data) => (dataArr = data));
-      
-      let formattedData = formatData(dataArr);
-      console.log(formattedData);
-
-      setPastData(formattedData);
-    };
-
-    fetchHistoricalData();
-
-      ws.current.onmessage = (e) => {
-      let data = JSON.parse(e.data);
-      if (data.type !== "ticker") {
-        return;
-      }
-
-      if (data.product_id === pair) {
-
-        setPrice(data.price);
-      }
-    };
-  }, [pair]);
-
-  const handleSelect = (e) => {
-    let unsubMsg = {
-      type: "unsubscribe",
-      product_ids: [pair],
-      channels: ["ticker"]
-    };
-    let unsub = JSON.stringify(unsubMsg);
-
-    ws.current.send(unsub);
-
-    setPair(e.target.value);
+  const handleChange = (e) => {
+    setSearch(e.target.value);
   };
+
+  const filteredCoins = coins.filter((coin) =>
+    coin.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <>
-    <Navbar />
-    <Dashboard price={price} data={pastData} />
-
-    <div className="container">
-      {
-        <select class="dropdown" name="currency" value={pair} onChange={handleSelect}>
-          {currencies.map((cur, idx) => {
-            return (
-              <option key={idx} value={cur.id}>
-                {cur.display_name}
-              </option>
-            );
-          })}
-
-        </select>
-      }
-      <UpdatePortfolio name={pair} price={price}/>
+    <div>
+      <Navbar />
+      <div className="header">
+        <h1 className="brand">
+        </h1>
+        <form>
+          <input
+            className="inputField"
+            type="text"
+            onChange={handleChange}
+            placeholder="Search a Coin"
+          />
+        </form>
+      </div>
+      <div className="coinsContainer">
+      {filteredCoins.map((coin) => {
+          return (
+            <Coin
+              key={coin.id}
+              name={coin.name}
+              price={coin.current_price}
+              symbol={coin.symbol}
+              marketcap={coin.market_cap}
+              volume={coin.total_volume}
+              image={coin.image}
+              priceChange={coin.price_change_percentage_24h}
+            />
+          );
+        })}
+      </div>
     </div>
-    </>
   );
 }
 
