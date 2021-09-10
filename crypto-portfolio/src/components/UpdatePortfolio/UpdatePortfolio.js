@@ -1,6 +1,11 @@
 import React, {useState} from 'react'
 import './UpdatePortfolio.scss';
 
+/**
+ * 
+ * @param {*} props
+ * Updates the portfolio value based on user events. 
+ */
 export const UpdatePortfolio = (props) => {
     const [portfolio, setPortfolio] = useState([])
     const [price, setPrice] = useState(0)
@@ -18,16 +23,9 @@ export const UpdatePortfolio = (props) => {
       };
     return (
         <div>
-          
-          <button class="btn-add" onClick={onAddBtnClick}>Add to Portfolio</button> 
-          <button class="btn-remove" onClick={onRemoveBtnClick}>Remove from Portfolio</button>
-          
-          {clicked ?          
-            <h1>Added: {portfolio}</h1> : 
-            <h1>Removed: {portfolio}</h1>
-          }
           <div class="portfolio">
             <h1>Portfolio Value: {price}</h1>
+            <h2>ROI: {price}</h2>
           </div>
         </div>
     )

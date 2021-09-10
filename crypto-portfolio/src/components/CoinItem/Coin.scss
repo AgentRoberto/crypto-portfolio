@@ -1,4 +1,4 @@
-.cryptoCoin {
+.crypto-coin {
     overflow: hidden;
     text-align: center;
     border-radius: 1rem;
@@ -9,7 +9,7 @@
     border: 2px solid #7dcaff;
 }
 
-.coinLogo {
+.coin-logo {
     width: 8rem;
     margin-top: 1.2rem;
     height: 40px;
@@ -17,7 +17,7 @@
     clip-path: circle(60px at center);
 }
 
-.coinNameWrap {
+.coin-name-wrap {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,19 +25,19 @@
     font-weight: 700;
 }
 
-.coinName {
+.coin-name {
     font-weight: bold;
     font-size: 1.5rem;
 }
 
-.coinSymbol {
+.coin-symbol {
     text-transform: uppercase;
     font-size: 12px;
     font-weight: 500;
     padding-left: 8px;
 }
 
-.priceContainerUP {
+.price-containerUP {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -50,7 +50,7 @@
     background-color: #11d811;
 }
 
-.priceContainerDOWN {
+.price-containerDOWN {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -67,26 +67,59 @@ svg {
     background-color: transparent;
 }
 
-.priceChange {
+.price-change {
     background-color: transparent;
     padding-left: 10px;
     text-shadow: 0 0 14px black;
 }
 
-.coinPrice {
+.coin-price {
     width: auto;
     background-color: transparent;
 }
 
-.coinMarketcap {
+.coin-marketcap {
     width: auto;
     padding-top: 8px;
     background-color: transparent;
 }
 
-.coinVolume {
+.coin-volume {
     width: auto;
     padding-top: 6px;
     padding-bottom: 8px;
     background-color: transparent;
 }
+
+.add-coin, .remove-coin {
+    display: inline-block;
+}
+
+.btn-add {
+    background-color: #7dcaff;
+    border: none;
+    color: white;
+    padding: 19px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width:160px;
+    cursor: pointer;
+    margin-right: 1px;
+  }
+  .btn-remove {
+    background-color: #7dcaff;
+    border: none;
+    color: white;
+    padding: 19px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    width: 160px;
+    cursor: pointer;
+  }
+
+  .btns {
+      display: flex;
+  }

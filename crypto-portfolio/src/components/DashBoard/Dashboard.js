@@ -1,24 +1,19 @@
 import React, { useRef } from "react";
 import { Line } from "react-chartjs-2";
 
+/**
+ * 
+ * @param {*} price, data
+ * This component displays the dashboard chart of the chosen asset.
+ * If no asset has been selected from the dropdown menu then
+ * the default display will be "Please select a currency pair"
+ */
 function Dashboard({ price, data }) {
-  const opts = {
-    tooltips: {
-      intersect: false,
-      mode: "index"
-    },
-    responsive: true,
-    maintainAspectRatio: false
-  };
-  if (price === "0.00") {
-    return <h1>Please select a currency pair</h1>;
-  }
   return (
     <div className="dashboard">
       <h2>{`Price = $${price}`}</h2>
-
       <div className="chart-container">
-        <Line type="radar" data={data} options={opts} />
+        <Line type="radar" data={data}/>
       </div>
     </div>
   );

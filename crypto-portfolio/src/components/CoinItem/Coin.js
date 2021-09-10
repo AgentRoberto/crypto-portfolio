@@ -18,25 +18,33 @@ const Coin = ({
   priceChange,
 }) => {
   return (
-    <div className="cryptoCoin">
-      <img src={image}  className="coinLogo" />
-      <div className="coinNameWrap">
-        <h1 className="coinName">{name}</h1>
-        <p className="coinSymbol">{symbol}</p>
+    <div className="crypto-coin">
+      <img src={image}  className="coin-logo" />
+      <div className="coin-name-wrap">
+        <h1 className="coin-name">{name}</h1>
+        <p className="coin-symbol">{symbol}</p>
       </div>
-      <p className="coinPrice">${price.toLocaleString()}</p>
-      <p className="coinMarketcap">Market Cap: ${marketcap.toLocaleString()}</p>
-      <p className="coinVolume">Volume (24H): ${volume.toLocaleString()}</p>
+      <p className="coin-price">${price.toLocaleString()}</p>
+      <p className="coin-marketcap">Market Cap: ${marketcap.toLocaleString()}</p>
+      <p className="coin-volume">Volume (24H): ${volume.toLocaleString()}</p>
       
       {priceChange < 0 ? (
-        <div className="priceContainerDOWN">
-          <p className="priceChange">{priceChange.toFixed(2)}%</p>
+        <div className="price-containerDOWN">
+          <p className="price-change">{priceChange.toFixed(2)}%</p>
         </div>
       ) : (
-        <div className="priceContainerUP">
-          <p className="priceChange">{priceChange.toFixed(2)}%</p>
+        <div className="price-containerUP">
+          <p className="price-change">{priceChange.toFixed(2)}%</p>
         </div>
       )}
+      <div className="btns"> 
+        <div className="add-coin" >
+            <button className='btn-add'>Add</button> 
+        </div>
+        <div className="remove-coin" >
+            <button className='btn-remove'>Remove</button> 
+        </div>
+        </div>
     </div>
   );
 };
