@@ -64,9 +64,8 @@ const Coin = ({
           <button className='btn-remove' onClick={onRemoveBtnClick}>Remove</button>
         </div>
       </div>
-      {total}
-      <p>Total Holdings: {click}</p>
-
+      {click == 0 ? ( 0 ) : <div>{total} </div>}
+      <p>Total Holding: {click}</p>
     </div>
   );
 };
