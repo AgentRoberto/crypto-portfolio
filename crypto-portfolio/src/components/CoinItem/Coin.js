@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { UpdatePortfolio } from "../UpdatePortfolio/UpdatePortfolio";
 import "./Coin.scss";
 
 /**
@@ -17,6 +18,24 @@ const Coin = ({
   image,
   priceChange,
 }) => {
+
+  const [portfolio, setPortfolio] = useState([])
+  const [total, setTotal] = useState(0)
+  const [click, setClick] = useState(0)
+  var i=click;
+  
+  const onAddBtnClick = () => {
+    setPortfolio(name);
+    setTotal(parseFloat(price) + parseFloat(total));
+    setClick(++i)
+  };
+
+  const onRemoveBtnClick = () => {
+    setPortfolio(name);
+    setTotal(parseFloat(total) - parseFloat(price));
+    setClick(--i)
+  };
+
   return (
     <div className="crypto-coin">
       <img src={image}  className="coin-logo" />
@@ -37,14 +56,17 @@ const Coin = ({
           <p className="price-change">{priceChange.toFixed(2)}%</p>
         </div>
       )}
-      <div className="btns"> 
+      <div className="btns">
         <div className="add-coin" >
-            <button className='btn-add'>Add</button> 
+          <button className='btn-add' onClick={onAddBtnClick}>Add</button>
         </div>
         <div className="remove-coin" >
-            <button className='btn-remove'>Remove</button> 
+          <button className='btn-remove' onClick={onRemoveBtnClick}>Remove</button>
         </div>
-        </div>
+      </div>
+      {total}
+      <p>Total Holdings: {click}</p>
+
     </div>
   );
 };

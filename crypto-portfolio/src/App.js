@@ -4,7 +4,6 @@ import axios from "axios";
 import Navbar from "./components/Navbar/Navbar"
 import Coin from "./components/CoinItem/Coin";
 import { UpdatePortfolio } from "./components/UpdatePortfolio/UpdatePortfolio"
-import Dashboard from "./components/DashBoard/Dashboard";
 
 function App() {
   const [coins, setCoins] = useState([]);
@@ -28,7 +27,7 @@ function App() {
     setSearch(e.target.value);
   };
 
-  // Search through the list of coins, display each coin in filteredcoins
+  // Search through the list of coins, display each coin in the filteredcoins
   const filteredCoins = coins.filter((coin) =>
     coin.name.toLowerCase().includes(search.toLowerCase())
   );
@@ -37,9 +36,6 @@ function App() {
     <div>
       <Navbar />
       <div className="header">
-        <div className="container">
-          <UpdatePortfolio name='N/A' price={0}/>
-        </div>
         <h1 className="brand">
         </h1>
         <form>
